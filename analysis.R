@@ -28,3 +28,7 @@ paste("A variância dos bad smells do mês por tipo são:")
 bs.colvars
 paste("A variância dos bad smells do mês por tipo são:")
 bs.colsds
+
+# 1.f boxplot the bad smells by type
+boxplot(aprilsbs.df[,-1:-2], main="Comparação de bad smells por tipo - Abril", xlab="Tipo de bad smell")
+
