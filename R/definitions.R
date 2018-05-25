@@ -1,20 +1,20 @@
 analyzeMonth <- function(csvsource, mname){
   # 1º Item
-  # Read from aprils csv and stores it on a data frame
-  aprilsbs.df <- read.csv(file=csvsource, header=TRUE)
-  monthsbs.matrix = data.matrix(aprilsbs.df[,-1:-2])
+  # Read from months csv and stores it on a data frame
+  monthsbs.df <- read.csv(file=csvsource, header=TRUE)
+  monthsbs.matrix = data.matrix(monthsbs.df[,-1:-2])
   
   # 1.a sum of all bad smells 
-  aprilsbs.sum <- sum(monthsbs.matrix)
-  print(paste("O total de bad smells em", mname ,"é de", aprilsbs.sum))
+  monthsbs.sum <- sum(monthsbs.matrix)
+  print(paste("O total de bad smells em", mname ,"é de", monthsbs.sum))
   
   # 1.b total average of all bad smells 
-  aprilsbs.avg <- aprilsbs.sum / ncol(monthsbs.matrix)
-  print(paste("A média total em", mname, "de bad smells em todos os softwares é de", aprilsbs.avg))
+  monthsbs.avg <- monthsbs.sum / ncol(monthsbs.matrix)
+  print(paste("A média total em", mname, "de bad smells em todos os softwares é de", monthsbs.avg))
   
   # 1.c software with highest bad smells count
-  aprilsbs.toppkg <- aprilsbs.df[which.max(rowSums(monthsbs.matrix)), "package_name"]
-  print(paste("O software com mais bad smells em", mname, "é o", aprilsbs.toppkg))
+  monthsbs.toppkg <- monthsbs.df[which.max(rowSums(monthsbs.matrix)), "package_name"]
+  print(paste("O software com mais bad smells em", mname, "é o", monthsbs.toppkg))
   
   # 1.d plot the total amout of bad smells by type
   bs.colsums <- colSums(monthsbs.matrix)
