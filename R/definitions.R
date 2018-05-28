@@ -1,29 +1,28 @@
-analyzeMonth <- function(csvsource, mname){
-  # 1º Item
-  # Read from months csv and stores it on a data frame
-  monthsbs.df <- read.csv(file=csvsource, header=TRUE)
+analyzeMonth <- function(monthsbs.df, mname){
+  
+  # Extract numeric matrix from data frame
   monthsbs.matrix = data.matrix(monthsbs.df[,-1:-2])
   
-  # 1.a sum of all bad smells 
+  # a - sum of all bad smells 
   monthsbs.sum <- sum(monthsbs.matrix)
   print(paste("O total de bad smells em", mname ,"é de", monthsbs.sum))
   
-  # 1.b total average of all bad smells 
+  # b - total average of all bad smells 
   monthsbs.avg <- monthsbs.sum / ncol(monthsbs.matrix)
   print(paste("A média total em", mname, "de bad smells em todos os softwares é de", monthsbs.avg))
   
-  # 1.c software with highest bad smells count
+  # c - software with highest bad smells count
   monthsbs.toppkg <- monthsbs.df[which.max(rowSums(monthsbs.matrix)), "package_name"]
   print(paste("O software com mais bad smells em", mname, "é o", monthsbs.toppkg))
   
-  # 1.d plot the total amout of bad smells by type
+  # d - plot the total amout of bad smells by type
   bs.colsums <- colSums(monthsbs.matrix)
   ylim <- c(0, 1.3*max(bs.colsums)) # used to scale the yaxis so the highest bar fits it
   bs.colsums.plot <- barplot(bs.colsums, main=paste("Total de bad smells por tipo - ", mname,""), ylim = ylim,
                              ylab="Quantidade de bad smells", xlab="Tipo de bad smell")
   text(x=bs.colsums.plot, y=bs.colsums, label=bs.colsums, pos=3, cex=0.8) # adds text at top of bars
   
-  # 1.e Variance and standart deviation of bad smells types
+  # e - Variance and standart deviation of bad smells types
   bs.colvars <- apply(monthsbs.matrix, 2, var)
   bs.colsds <- apply(monthsbs.matrix, 2, sd)
   print(paste("A variância dos bad smells do mês de", mname,"por tipo são:"))
@@ -31,6 +30,6 @@ analyzeMonth <- function(csvsource, mname){
   print(paste("A variância dos bad smells do mês de", mname,"por tipo são:"))
   print(bs.colsds)
   
-  # 1.f boxplot the bad smells by type
+  # f - boxplot the bad smells by type
   boxplot(monthsbs.matrix, main=paste("Comparação de bad smells por tipo -", mname), xlab="Tipo de bad smell")
 }

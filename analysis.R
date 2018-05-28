@@ -1,4 +1,10 @@
 source("R/definitions.R")
 
-analyzeMonth(csvsource="data/bad_smells_abril.csv", mname="Abril")
-analyzeMonth(csvsource="data/bad_smells_maio.csv", mname="Maio")
+# Read from months csv and stores it on a data frame
+aprilsbs.df <- read.csv(file="data/bad_smells_abril.csv", header=TRUE)
+maysbs.df <- read.csv(file="data/bad_smells_maio.csv", header=TRUE)
+
+# 1º Item
+analyzeMonth(aprilsbs.df, mname="Abril")
+# 2º Item
+analyzeMonth(maysbs.df, mname="Maio")
