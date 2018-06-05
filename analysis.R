@@ -4,6 +4,15 @@ source("R/definitions.R")
 aprilsbs.df <- read.csv(file="data/bad_smells_abril.csv", header=TRUE)
 maysbs.df <- read.csv(file="data/bad_smells_maio.csv", header=TRUE)
 
+# Group each row by package and sums their respective collumns values
+aprilsbs.df <- aprilsbs.df %>% group_by(package_name) %>% summarise(
+  BLOB=sum(BLOB),LM=sum(LM), SAK=sum(SAK), CC=sum(CC), IGS=sum(IGS), MIM=sum(MIM), NLMR=sum(NLMR), LIC=sum(LIC)
+)
+
+maysbs.df <- maysbs.df %>% group_by(package_name) %>% summarise(
+  BLOB=sum(BLOB),LM=sum(LM), SAK=sum(SAK), CC=sum(CC), IGS=sum(IGS), MIM=sum(MIM), NLMR=sum(NLMR), LIC=sum(LIC)
+)
+
 # 1º Item
 analyzeMonth(aprilsbs.df, mname="Abril")
 # 2º Item
@@ -11,7 +20,7 @@ analyzeMonth(maysbs.df, mname="Maio")
 
 #3 º Item
 # binds the two data frames into a single labeled one
-bscomp.df <- rbind(colSums(aprilsbs.df[,-1:-2]), colSums(maysbs.df[,-1:-2]))
+bscomp.df <- rbind(colSums(aprilsbs.df[,-1]), colSums(maysbs.df[,-1]))
 rownames(bscomp.df) <- c("Abril", "Maio")
 
 # a - Plot the comparison of total amout of bad smells by type
@@ -44,6 +53,7 @@ bspkg.df <- bspkg.df[, c('package_name', 'group', 'abril', 'maio')]
 
 library(tidyverse)
 library(viridis)
+library(ggplot2)
 
 # Transform data in a tidy format (long format)
 bspkg.df = bspkg.df %>% tidyr::gather(key = "month", value="value", -c(1,2)) 

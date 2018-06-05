@@ -1,19 +1,20 @@
 analyzeMonth <- function(monthsbs.df, mname){
   
   # Extract numeric matrix from data frame
-  monthsbs.matrix = data.matrix(monthsbs.df[,-1:-2])
+  monthsbs.matrix = data.matrix(monthsbs.df[,-1])
   
   # a - sum of all bad smells 
   monthsbs.sum <- sum(monthsbs.matrix)
   print(paste("O total de bad smells em", mname ,"é de", monthsbs.sum))
   
   # b - total average of all bad smells 
-  monthsbs.avg <- monthsbs.sum / ncol(monthsbs.matrix)
-  print(paste("A média total em", mname, "de bad smells em todos os softwares é de", monthsbs.avg))
+  print(paste("A média total em", mname, "de bad smells em todos os softwares é de", mean(monthsbs.matrix)))
+  print(paste("A média total em", mname, "de bad smells em todos os softwares por tipo de badsmell é de"))
+  print(colMeans(monthsbs.matrix))
   
   # c - software with highest bad smells count
-  monthsbs.toppkg <- monthsbs.df[which.max(rowSums(monthsbs.matrix)), "package_name"]
-  print(paste("O software com mais bad smells em", mname, "é o", monthsbs.toppkg))
+  toppkg <- monthsbs.df[which.max(rowSums(monthsbs.matrix)), "package_name"]
+  print(paste("O software com mais bad smells em", mname, "é o", unlist(toppkg)))
   
   # d - plot the total amout of bad smells by type
   bs.colsums <- colSums(monthsbs.matrix)
