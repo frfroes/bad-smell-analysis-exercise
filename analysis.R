@@ -1,3 +1,12 @@
+# Uncomment to install dependencies
+# install.packages("tidyverse", dependencies = TRUE)
+# install.packages("viridis", dependencies = TRUE)
+# install.packages("ggplot2", dependencies = TRUE)
+
+library(tidyverse)
+library(viridis)
+library(ggplot2)
+
 source("R/definitions.R")
 
 # Read from months csv and stores it on a data frame
@@ -39,21 +48,15 @@ round((( sum(bscomp.df["Maio",]) / sum(bscomp.df["Abril",])) - 1) * 100, 2)
 # --------------------
 bspkg.df <- data.frame(
   package_name=aprilsbs.df$package_name, 
-  abril=rowSums(aprilsbs.df[,-1:-2]), 
-  maio=rowSums(maysbs.df[,-1:-2])
+  abril=rowSums(aprilsbs.df[,-1]), 
+  maio=rowSums(maysbs.df[,-1])
   )
 
-bspkg.df <- bspkg.df %>% group_by(package_name) %>% summarise(abril=sum(abril), maio=sum(maio))
 bspkg.df <- bspkg.df[bspkg.df$abril > 10 & bspkg.df$abril < 101,]
 bspkg.df <- bspkg.df[1:60,]
 group.stp <- round(nrow(bspkg.df) / 4)
 bspkg.df$group <- as.factor(c(rep('A', group.stp), rep('B', group.stp), rep('C', group.stp), rep('D', nrow(bspkg.df) - group.stp*3)))
 bspkg.df <- bspkg.df[, c('package_name', 'group', 'abril', 'maio')]
-
-
-library(tidyverse)
-library(viridis)
-library(ggplot2)
 
 # Transform data in a tidy format (long format)
 bspkg.df = bspkg.df %>% tidyr::gather(key = "month", value="value", -c(1,2)) 
