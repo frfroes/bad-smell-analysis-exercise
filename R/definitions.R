@@ -35,11 +35,13 @@ analyzeMonth <- function(monthsbs.df, mname){
   boxplot(monthsbs.matrix, main=paste("Comparação de bad smells por tipo -", mname), xlab="Tipo de bad smell")
 }
 
-circularStackedPlot <- function(bspkgdf.orig, scalar=1){
+circularStackedPlot <- function(bspkgdf.orig, scalar=1, from=1){
   
   if(nrow(bspkgdf.orig) - (50 * scalar) <= 0) return()
   
-  bspkgdf.curr <- bspkgdf.orig[bspkgdf.orig$abril >= (1 * scalar) & bspkgdf.orig$abril < (50 * scalar),]
+  range.from = from
+  range.to = 50 * scalar
+  bspkgdf.curr <- bspkgdf.orig[bspkgdf.orig$abril >= range.from & bspkgdf.orig$abril < range.to,]
   
   step = 0
   curr.rows <- nrow(bspkgdf.curr)
@@ -125,9 +127,10 @@ circularStackedPlot <- function(bspkgdf.orig, scalar=1){
       geom_segment(data=base_data, aes(x = start, y = -5, xend = end, yend = -5), colour = "black", alpha=0.8, size=0.6 , inherit.aes = FALSE )
       #geom_text(data=base_data, aes(x = title, y = -18, label=group), hjust=c(1,1,0,0), colour = "black", alpha=0.8, size=4, fontface="bold", inherit.aes = FALSE)
     
+    print(paste("Plotando range:", range.from, "-", (range.to - 1), "pt.", step / 60))
     print(p) # force to plot
   
   }
   
-  circularStackedPlot(bspkgdf.orig, scalar= scalar + 1)
+  circularStackedPlot(bspkgdf.orig, scalar=(scalar + 1), from=range.to)
 }

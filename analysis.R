@@ -55,17 +55,6 @@ bspkg.df <- data.frame(
 circularStackedPlot(bspkg.df)
 
 bspkg.df <- bspkg.df[bspkg.df$abril >= 1 & bspkg.df$abril < 50,]
-step = 0
-curr.rows <- nrow(bspkg.df)
-while(curr.rows >= step){
-  stpstrt = 1+step
-  stpend = if(60+step > curr.rows) curr.rows else 60+step;
-  
-  print(paste(stpstrt, "-",stpend))
-  print(nrow(bspkg.df[stpstrt:stpend,]))
-  
-  step = step + 60
-}
 bspkg.df <- bspkg.df[1:60,]
 group.stp <- round(nrow(bspkg.df) / 4)
 bspkg.df$group <- as.factor(c(rep('A', group.stp), rep('B', group.stp), rep('C', group.stp), rep('D', nrow(bspkg.df) - group.stp*3)))
