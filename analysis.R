@@ -45,12 +45,11 @@ round(((bscomp.df["Maio",] / bscomp.df["Abril",]) - 1) * 100, 2)
 print("E a diferença total em % é de:")
 round((( sum(bscomp.df["Maio",]) / sum(bscomp.df["Abril",])) - 1) * 100, 2)
 
-# c - Several circular stacked barplot with the comparison of badsemells by package
+# c - Plot several circular stacked barplot with the comparison of badsemells by package
 bspkg.df <- data.frame(
   package_name=aprilsbs.df$package_name, 
   abril=rowSums(aprilsbs.df[,-1]), 
   maio=rowSums(maysbs.df[,-1])
   )
-
 circularStackedPlot(bspkg.df)
 

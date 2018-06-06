@@ -35,17 +35,21 @@ analyzeMonth <- function(monthsbs.df, mname){
   boxplot(monthsbs.matrix, main=paste("Comparação de bad smells por tipo -", mname), xlab="Tipo de bad smell")
 }
 
+# plot reference: https://www.r-graph-gallery.com/299-circular-stacked-barplot/
 circularStackedPlot <- function(bspkgdf.orig, scalar=1, from=1){
   
-  if(nrow(bspkgdf.orig) - (50 * scalar) <= 0) return()
+  maxApril = max(bspkgdf.orig$abril)
+  
+  if(maxApril == from) return()
   
   range.from = from
-  range.to = 50 * scalar
+  range.to = if(maxApril - (60 * scalar) < 0) maxApril else 60 * scalar
+  
   bspkgdf.curr <- bspkgdf.orig[bspkgdf.orig$abril >= range.from & bspkgdf.orig$abril < range.to,]
   
   step = 0
   curr.rows <- nrow(bspkgdf.curr)
-  while(curr.rows >= step){
+  while(curr.rows >= 4 && curr.rows >= step){
     
     stpstrt = 1+step
     stpend = if(60+step > curr.rows) curr.rows else 60+step;
@@ -58,7 +62,7 @@ circularStackedPlot <- function(bspkgdf.orig, scalar=1, from=1){
     bspkg.df$group <- as.factor(c(rep('A', group.stp), rep('B', group.stp), rep('C', group.stp), rep('D', nrow(bspkg.df) - group.stp*3)))
     bspkg.df <- bspkg.df[, c('package_name', 'group', 'abril', 'maio')]
     
-    scalevec <- c(0, 50, 100, 150, 200) * scalar
+    scalevec <- c(0, 10, 30, 50, 80) * scalar
     
     # Transform data in a tidy format (long format)
     bspkg.df = bspkg.df %>% tidyr::gather(key = "month", value="value", -c(1,2)) 
