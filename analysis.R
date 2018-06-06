@@ -52,6 +52,9 @@ bspkg.df <- data.frame(
   maio=rowSums(maysbs.df[,-1])
   )
 
+
+circularStackedPlot(bspkg.df)
+
 bspkg.df <- bspkg.df[bspkg.df$abril >= 0 & bspkg.df$abril < 50,]
 bspkg.df <- bspkg.df[1:60,]
 group.stp <- round(nrow(bspkg.df) / 4)
