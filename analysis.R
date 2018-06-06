@@ -52,7 +52,7 @@ bspkg.df <- data.frame(
   maio=rowSums(maysbs.df[,-1])
   )
 
-bspkg.df <- bspkg.df[bspkg.df$abril > 10 & bspkg.df$abril < 101,]
+bspkg.df <- bspkg.df[bspkg.df$abril >= 0 & bspkg.df$abril < 50,]
 bspkg.df <- bspkg.df[1:60,]
 group.stp <- round(nrow(bspkg.df) / 4)
 bspkg.df$group <- as.factor(c(rep('A', group.stp), rep('B', group.stp), rep('C', group.stp), rep('D', nrow(bspkg.df) - group.stp*3)))
@@ -108,7 +108,7 @@ p = ggplot(bspkg.df) +
   # Add text showing the value of each 100/75/50/25 lines
   annotate("text", x = rep(max(bspkg.df$id),5), y = c(0, 50, 100, 150, 200), label = c("0", "50", "100", "150", "200") , color="grey", size=3 , angle=0, fontface="bold", hjust=1) +
   
-  ylim(-50,max(label_data$tot, na.rm=T)) +
+  ylim(-25,max(label_data$tot, na.rm=T)) +
   theme_minimal() +
   theme(
     axis.text = element_blank(),
